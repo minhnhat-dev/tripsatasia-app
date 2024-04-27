@@ -1,20 +1,23 @@
 "use client";
 import React, { useState, ReactNode } from "react";
+import { useSession } from "next-auth/react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+
 
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const {data: session} = useSession()
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+         {session?.user?.isAdmin && <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Start ===== --> */}
